@@ -16,17 +16,20 @@ namespace AspNet461.Controllers
         private readonly DiscoveryHttpClientHandler _handler;
         //调用地址，这里指定应用名[user]，服务中心会自动分配地址，并实现负载均衡
         private const string userUrl = "http://user/api/user";
-        
+
+        private IDiscoveryClient _client;
+
         /// <summary>
         /// 构造器注入
         /// </summary>
         /// <param name="client"></param>
         public UserController(IDiscoveryClient client)
         {
+            _client = client;
             _handler = new DiscoveryHttpClientHandler(client);
         }
         /// <summary>
-        /// 调User服务中，获取用户信息
+        /// 异步调用
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -34,6 +37,17 @@ namespace AspNet461.Controllers
         {
             var client = new HttpClient(_handler);
             return await client.GetStringAsync(userUrl);
+        }
+
+        /// <summary>
+        ///  同步调用
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("UserSync")]
+        public string GetUserSync()
+        {
+            return _client.DoPost(userUrl);
         }
     }
 }
