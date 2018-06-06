@@ -11,4 +11,5 @@
 /aspnet/OrderApi/bin
 /aspnet/UserApi/obj
 /aspnet/UserApi/bin
-/aspnet/.vs
+/aspnet/AspNet451_WebForm/obj
+/aspnet/AspNet451_WebForm/bin
